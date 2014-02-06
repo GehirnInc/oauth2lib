@@ -33,8 +33,9 @@ class AuthorizationProviderTest(unittest.TestCase):
 
     def test_get_authorization_code_invalid_response_type(self):
 
-        response = self.provider.get_authorization_code('foo', 'client12345',
-                                               'https://example.com/oauth')
+        response = self.provider.get_authorization_code(
+            'foo', 'client12345', 'https://example.com/oauth'
+        )
 
         self.assertEquals(302, response.status_code)
         self.assertEquals('https://example.com/oauth?'

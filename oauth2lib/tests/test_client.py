@@ -24,5 +24,6 @@ class ClientTest(unittest.TestCase):
         params = utils.url_query_params(uri)
         self.assertEquals('code', params['response_type'])
         self.assertEquals('some.client', params['client_id'])
-        self.assertEquals('https://example.com/oauth2redirect', params['redirect_uri'])
+        self.assertEquals('https://example.com/oauth2redirect',
+                          params['redirect_uri'])
         self.assertEquals('app.state', params['state'])
