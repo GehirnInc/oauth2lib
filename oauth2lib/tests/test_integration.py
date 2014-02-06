@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 import unittest
 from oauth2lib.provider import AuthorizationProvider
 from oauth2lib.client import Client
@@ -27,7 +26,8 @@ class MockAuthorizationProvider(AuthorizationProvider):
         return client_id == MOCK_CLIENT_ID
 
     def validate_client_secret(self, client_id, client_secret):
-        return client_id == MOCK_CLIENT_ID and client_secret == MOCK_CLIENT_SECRET
+        return client_id == MOCK_CLIENT_ID\
+            and client_secret == MOCK_CLIENT_SECRET
 
     def validate_scope(self, client_id, scope):
         requested_scopes = scope.split()

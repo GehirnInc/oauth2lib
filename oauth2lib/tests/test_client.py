@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 import unittest
 from oauth2lib.client import Client
 from oauth2lib import utils

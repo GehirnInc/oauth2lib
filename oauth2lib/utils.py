@@ -1,15 +1,20 @@
 import string
-import urllib
-import urlparse
+from urllib.parse import (
+    parse_qsl,
+    urlencode,
+    urlparse,
+    urlunparse,
+)
 from random import SystemRandom
 
-UNICODE_ASCII_CHARACTERS = (string.ascii_letters.decode('ascii') +
-    string.digits.decode('ascii'))
+UNICODE_ASCII_CHARACTERS = (string.ascii_letters + string.digits)
 
 
 def random_ascii_string(length):
     random = SystemRandom()
-    return ''.join([random.choice(UNICODE_ASCII_CHARACTERS) for x in xrange(length)])
+    return ''.join([
+        random.choice(UNICODE_ASCII_CHARACTERS) for x in range(length)
+    ])
 
 
 def url_query_params(url):
@@ -19,7 +24,7 @@ def url_query_params(url):
     :type url: str
     :rtype: dict
     """
-    return dict(urlparse.parse_qsl(urlparse.urlparse(url).query, True))
+    return dict(parse_qsl(urlparse(url).query, True))
 
 
 def url_dequery(url):
@@ -29,13 +34,8 @@ def url_dequery(url):
     :type url: str
     :rtype: str
     """
-    url = urlparse.urlparse(url)
-    return urlparse.urlunparse((url.scheme,
-                                url.netloc,
-                                url.path,
-                                url.params,
-                                '',
-                                url.fragment))
+    url = urlparse(url)
+    return urlunparse(url[:4] + ('', url[5]))
 
 
 def build_url(base, additional_params=None):
@@ -48,18 +48,13 @@ def build_url(base, additional_params=None):
     :type additional_params: dict
     :rtype: str
     """
-    url = urlparse.urlparse(base)
+    url = urlparse(base)
     query_params = {}
-    query_params.update(urlparse.parse_qsl(url.query, True))
+    query_params.update(parse_qsl(url.query, True))
     if additional_params is not None:
         query_params.update(additional_params)
-        for k, v in additional_params.iteritems():
+        for k, v in additional_params.items():
             if v is None:
                 query_params.pop(k)
 
-    return urlparse.urlunparse((url.scheme,
-                                url.netloc,
-                                url.path,
-                                url.params,
-                                urllib.urlencode(query_params),
-                                url.fragment))
+    return urlunparse(url[:4] + (urlencode(query_params), url[5]))

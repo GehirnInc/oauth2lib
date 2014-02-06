@@ -74,7 +74,4 @@ class Client(object):
                        'client_secret': self.client_secret,
                        'redirect_uri': self.redirect_uri})
         response = self.http_post(self.token_uri, params)
-        try:
-            return response.json()
-        except TypeError:
-            return response.json
+        return response.json()
